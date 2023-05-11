@@ -40,11 +40,11 @@ selectCategories.addEventListener("change", ()=>{
     const category = selectCategories.selectedOptions[0].value
     console.log(category)
     selectActivities.innerHTML = ""; //clear old options out
-    let matches = 0;
+    // let matches = 0;
     for(let i = 0; i < activities.length; i++ ){
         const activity = activities[i];
         if(activity.category == category){
-            matches++;
+            // matches++;
             console.log(activity.name)
             let option = document.createElement("option");
             option.innerHTML = activity.name
@@ -52,7 +52,8 @@ selectCategories.addEventListener("change", ()=>{
             selectActivities.appendChild(option);
         }  
     }
-    selectActivities.setAttribute("size", matches);
+    // selectActivities.setAttribute("size", matches);
+    selectActivities.setAttribute("size", selectActivities.length);
 });
 
 selectActivities.addEventListener("change", ()=>{
