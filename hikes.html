@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="data/HikingPage/hiking.js"></script>
+</head>
+<body>
+    <select id="hikes">
+        <option>Select a Hike</option>
+    </select><br>
+    Description:<br><div id="description"></div><br>
+    Length:         <div id="length"></div><br>
+    Difficulty:     <div id="difficulty"></div><br>
+    <img id="scenic">
+    <img id="trail">
+</body>
+<script>
+    /* let hikes = [
+    {
+       id: "H101", 
+       name: "Birding Loop", 
+       description: "The Birding Loop takes you through cedar forests, open plains, and beautiful spring time creeks.  Along the way, you might see some of out 225 annually recorded bird species, including the beautiful Painted Bunting, the adorable Tufted Titmouse, or even a high-flying Red-Tailed Hawk. The terrain is generally flat and the trail is well marked.",
+       scenicImage: "birding_loop_1.png",
+       trailMapImage: "birding_loop_2.png",
+       length: "2.3 miles", 
+       difficulty: 2 */
+
+    const select = document.getElementById("hikes");
+    const description = document.getElementById("description");
+    const difficulty = document.getElementById("difficulty");
+    const length = document.getElementById("length");
+    const scenic = document.getElementById("scenic");
+    const trail = document.getElementById("trail");
+
+    for(let i=0; i < hikes.length; i++){
+        let hike = hikes[i];
+        select.innerHTML += `<option>${hike.name}</option>`
+        // select.innerHTML += `<option value="${hike.id}">${hike.name}</option>`
+    }
+
+    select.addEventListener("change", ()=>{
+        let index = select.selectedIndex - 1;
+        if(index >= 0){
+            hike = hikes[index] //account for the dummmy help option - no search require
+            description.innerHTML = hike.description
+            difficulty.innerHTML = hike.difficulty
+            length.innerHTML = hike.length
+
+            const PATH = "data/HikingPage/"
+            
+            scenic.src = PATH + hike.scenicImage
+            trail.src = PATH + hike.trailMapImage
+        }else{
+            //clear old data
+            description.innerHTML = "";
+            difficulty.innerHTML = "";
+            length.innerHTML = "";
+            scenic.src = "";
+            trail.src = "";
+        }
+    })
+
+</script>
+</html>
