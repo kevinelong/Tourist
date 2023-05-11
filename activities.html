@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="data/ActivitiesPage/activities.js"></script>
+</head>
+<body>
+    <select id="categories"></select>
+    <select id="activities"></select>
+    <div id="details"></div>
+</body>
+<script>
+//     let categories = ["Adventures", "Arts & Crafts", "Museums", "Wine Tastings", "Other"];
+// let activities = [
+//   {
+//         category: "Adventures", 
+//         id: "A101", 
+//         name: "Valley Hot Air Balloons", 
+//         description: "Enjoy a lovely hot air balloon ride over the valley at sunrise.  Call 800-555-1212 to reserve a date/time after you complete your e-ticket purchase.", 
+//         location: "121 S. Main Street",
+//         price: 265.00 
+//    },
+const selectCategories = document.getElementById("categories")
+const selectActivities = document.getElementById("activities")
+const details = document.getElementById("details")
+
+for(let i = 0; i < categories.length; i++){
+    let category = categories[i];
+    // console.log(category);
+    const option = document.createElement("option");
+    option.innerHTML = category
+    option.value = category
+    selectCategories.appendChild(option)
+}
+
+selectCategories.addEventListener("change", ()=>{
+    const category = selectCategories.selectedOptions[0].value
+    console.log(category)
+    selectActivities.innerHTML = ""; //clear old options out
+    let matches = 0;
+    for(let i = 0; i < activities.length; i++ ){
+        const activity = activities[i];
+        if(activity.category == category){
+            matches++;
+            console.log(activity.name)
+            let option = document.createElement("option");
+            option.innerHTML = activity.name
+            option.value = activity.id
+            selectActivities.appendChild(option);
+        }  
+    }
+    selectActivities.setAttribute("size", matches);
+});
+
+selectActivities.addEventListener("change", ()=>{
+    console.log("activity changed")
+    const id = selectActivities.selectedOptions[0].value
+    for(let i = 0; i < activities.length; i++ ){
+        const activity = activities[i];
+        if(activity.id == id){
+details.innerHTML = `
+<h4>Description:</h4> ${activity.description} <br>
+<h4>Location:</h4> ${activity.location}<br>
+<h4>Price:</h4> ${activity.price} <br>
+`
+        }
+    }
+});
+
+</script>
+</html>
