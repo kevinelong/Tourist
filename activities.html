@@ -8,9 +8,34 @@
     <script src="data/ActivitiesPage/activities.js"></script>
 </head>
 <body>
-    <select id="categories"></select>
+    <header id="header">
+        <img src="#">
+        <nav id="nav"></nav>
+    </header>
+    <select id="categories">
+        <option>Select One</option>
+    </select>
     <select id="activities"></select>
     <div id="details"></div>
+    <div id="order" style="display:none">
+        <h4>Order Tickets</h4>
+    <form>
+
+<!-- - the number of tickets needed -->
+<input id="tickets" name="tickets" placeholder="Number of tickets needed">
+<!-- - a credit card number -->
+<input id="card" name="card" placeholder="a credit card number" type="number">
+<!-- - an email address -->
+<input id="email" name="email" placeholder="an email address" type="email">
+<!-- - a reset button -->
+<input type="reset" value="Clear Form">
+
+    </form>
+
+    <!-- - a purchase (submit) button -->
+<button id="purchase"> Purchase </button>
+<p id="message"></p>
+    </div>
 </body>
 <script>
 //     let categories = ["Adventures", "Arts & Crafts", "Museums", "Wine Tastings", "Other"];
@@ -26,6 +51,9 @@
 const selectCategories = document.getElementById("categories")
 const selectActivities = document.getElementById("activities")
 const details = document.getElementById("details")
+const order = document.getElementById("order")
+const purchase = document.getElementById("purchase")
+const message = document.getElementById("message")
 
 for(let i = 0; i < categories.length; i++){
     let category = categories[i];
@@ -39,6 +67,10 @@ for(let i = 0; i < categories.length; i++){
 selectCategories.addEventListener("change", ()=>{
     const category = selectCategories.selectedOptions[0].value
     console.log(category)
+    details.innerHTML = "";
+    message.innerHTML = "";
+
+    order.style.display = "none"
     selectActivities.innerHTML = ""; //clear old options out
     // let matches = 0;
     for(let i = 0; i < activities.length; i++ ){
@@ -56,20 +88,44 @@ selectCategories.addEventListener("change", ()=>{
     selectActivities.setAttribute("size", selectActivities.length);
 });
 
+let activity;
+
 selectActivities.addEventListener("change", ()=>{
     console.log("activity changed")
+    details.innerHTML = "";
+    message.innerHTML = "";
+
     const id = selectActivities.selectedOptions[0].value
     for(let i = 0; i < activities.length; i++ ){
-        const activity = activities[i];
+        activity = activities[i];
         if(activity.id == id){
 details.innerHTML = `
 <h4>Description:</h4> ${activity.description} <br>
 <h4>Location:</h4> ${activity.location}<br>
 <h4>Price:</h4> ${activity.price} <br>
 `
+            if(activity.price > 0){
+                order.style.display = "block"
+            }else{
+                order.style.display = "none"
+            }
+            break; //exit loop when match is found
         }
     }
 });
+
+purchase.addEventListener("click", ()=>{
+    const tickets = Number(document.getElementById("tickets").value);
+
+// When the user clicks the purchase button, a message will appear below it stating something to the effect:
+// "Your credit card has been charged $(amount) for (number-of- tickets) to (adventure-name). A confirmation email has been sent to (email)."
+    message.innerHTML = `
+Your credit card has been charged $${activity.price * tickets},
+ for ${tickets} tickets,
+  to ${activity.name}. 
+  A confirmation email has been sent to ${document.getElementById("email").value}.
+    `;
+})
 
 </script>
 </html>
